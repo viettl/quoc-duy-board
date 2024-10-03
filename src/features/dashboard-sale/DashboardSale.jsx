@@ -8,6 +8,8 @@ import CustomCalendar from './components/Calendar';
 import { CardContent } from '@/components/card/CardStyled';
 import { CalendarClockIcon } from '@/components/Icon.jsx';
 import styled from 'styled-components';
+import FullCalendar from '@fullcalendar/react';
+import { FullCalendarComponent } from '@/components/fullcalendar/FullCalendarComponent.jsx';
 
 function TabsComponent() {
   const tabsData = [
@@ -42,9 +44,15 @@ export function DashboardSale() {
           </Row>
         </Col>
         <Col span={12} md={24} lg={24} xl={12}>
-          <Card title="Lịch công việc" prefixIcon={<CalendarClockIcon />} rightToolbar={<RightTextStyled>Tất cả</RightTextStyled>}>
+          <Card
+            title="Lịch công việc"
+            prefixIcon={<CalendarClockIcon />}
+            rightToolbar={<RightTextStyled>Tất cả</RightTextStyled>}
+          >
             <CardContent>
-              <CustomCalendar />
+              {/*<Calendar />*/}
+              <FullCalendarComponent />
+              {/*<CustomCalendar />*/}
             </CardContent>
           </Card>
         </Col>

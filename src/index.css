@@ -1,4 +1,4 @@
-@import url("https://cdn.jsdelivr.net/gh/jgthms/minireset.css@master/minireset.min.css");
+@import url('https://cdn.jsdelivr.net/gh/jgthms/minireset.css@master/minireset.min.css');
 
 :root {
   font-family: Roboto, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -7,4 +7,16 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --fc-button-text-color: #ccc;
+  --fc-button-bg-color: #fff;
+  --fc-button-border-color: #fff;
+  --fc-button-hover-bg-color: #fff;
+  --fc-button-hover-border-color: #fff;
+  --fc-button-active-bg-color: #ccc;
+  --fc-button-active-border-color: #fff;
 }
+
+/*.fc .fc-toolbar.fc-header-toolbar {*/
+/*  margin-bottom: 1.5em;*/
+/*  background: red;*/
+/*}*/
