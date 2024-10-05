@@ -2,11 +2,12 @@ import styled from 'styled-components';
 
 export const RADIUS = 102;
 
-
 const ChartContainer = styled.div`
   position: relative;
-  width: 250px;
-  height: 250px;
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  aspect-ratio: 1;
 `;
 
 const Chart = styled.svg`
@@ -27,15 +28,16 @@ const Segment = styled(Circle)`
   stroke: ${(props) => props.color};
   stroke-dasharray: ${(props) => props.dashArray};
   stroke-dashoffset: ${(props) => props.dashOffset};
-    
+
   transition: stroke-dasharray 0.5s ease-in-out, stroke-dashoffset 0.5s ease-in-out, stroke 0.5s ease-in-out, transform 0.5s ease-in-out;
   will-change: stroke-dasharray, stroke-dashoffset, stroke, transform;
   transform: scale(1);
-  
+
   &:hover {
     transform: scale(1.03);
   }
 `;
+
 const CenterContent = styled.div`
   position: absolute;
   top: 50%;
@@ -47,8 +49,8 @@ const CenterContent = styled.div`
   flex-direction: column;
   justify-content: center;
   background: #fff;
-  width: 145px;
-  height: 145px;
+  width: 58%;
+  height: 58%;
   vertical-align: middle;
   box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.1);
 `;
@@ -63,6 +65,7 @@ const Total = styled.div`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   transition: background 0.5s;
+  --primary: linear-gradient(90deg, #21d4fd 5.6%, #2152ff 96.47%);
 `;
 
 const Label = styled.div`
@@ -71,8 +74,8 @@ const Label = styled.div`
   font-style: normal;
   font-weight: 400;
   line-height: 100%; /* 14px */
+  --Dark-grey: #a0aec0;
 `;
-
 
 export {
   ChartContainer,
@@ -82,4 +85,4 @@ export {
   CenterContent,
   Total,
   Label,
-}
+};

@@ -34,13 +34,12 @@ export const CustomDayStyled = styled.div`
   border: none;
 `;
 
-
 export const EventWrapperStyled = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   //justify-content: center;
-`
+`;
 
 export const CustomDateHeaderStyled = styled.div`
   color: #344767;

@@ -8,24 +8,26 @@ import { SalePieChartNotesStyled } from './SaleReportTaskStyled';
 import { HorizontalDivider } from '@/components/Divider.jsx';
 import DonutChart from '../../../components/donut-chart/DonutChart.jsx';
 
+const items = [
+  {
+    label: 'Việc của tôi',
+    key: '1',
+    icon: <UserOutlined />,
+  },
+  {
+    label: 'Hôm nay',
+    key: '2',
+    icon: <UserOutlined />,
+  },
+];
+
 const Toolbars = () => {
   const [selected, setSelected] = useState('1');
+
   const handleMenuClick = (e) => {
     setSelected(e.key);
-    console.log('click', e);
   };
-  const items = [
-    {
-      label: 'Việc của tôi',
-      key: '1',
-      icon: <UserOutlined />,
-    },
-    {
-      label: 'Hôm nay',
-      key: '2',
-      icon: <UserOutlined />,
-    },
-  ];
+
   const menuProps = {
     items,
     onClick: handleMenuClick,

@@ -55,6 +55,28 @@ export const FullCalendarStyled = styled.div`
         button[aria-pressed='true'] {
           border-radius: 6px;
           background: #fff;
+          color: #344767;
+          text-align: center;
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 150%;
+        }
+      }
+
+      //  !TODO custom button filter
+      // filter button by title text
+      button[title=''] {
+        padding: 0 10px;
+        color: black;
+
+        // replace content by icon svg
+        &::before {
+          content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='20' viewBox='0 0 22 20' fill='none'%3E%3Cpath d='M0.167373 1.48602C0.451 0.884389 1.05263 0.501923 1.71873 0.501923H20.2834C20.9495 0.501923 21.5511 0.884389 21.8348 1.48602C22.1184 2.08766 22.0324 2.79672 21.6113 3.31241L13.7514 12.917V18.379C13.7514 18.899 13.4592 19.376 12.9907 19.6081C12.5223 19.8401 11.968 19.7929 11.5511 19.4791L8.80081 17.4164C8.45272 17.1586 8.25074 16.7503 8.25074 16.3163V12.917L0.386539 3.30811C-0.0303062 2.79672 -0.120551 2.08336 0.167373 1.48602Z' fill='%23A0AEC0'/%3E%3C/svg%3E");
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          margin-right: 5px;
         }
       }
     }
@@ -122,5 +144,16 @@ export const FullCalendarStyled = styled.div`
   }
   thead {
     border-bottom: 1px solid var(--Grey, #ebeff5);
+  }
+
+  .viewmore {
+    width: 100%;
+    color: #2275ff;
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    padding: 8px 0;
   }
 `;

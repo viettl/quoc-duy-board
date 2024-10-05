@@ -5,7 +5,6 @@ import { RefreshIcon } from '@/components/Icon.jsx';
 const TabContainer = styled.div`
   display: flex;
   background-color: #fff;
-  //border-bottom: 3px solid #e0e0e0;
   border-radius: 0.75rem;
   padding: 1.2rem 1.2rem 0 1.2rem;
   gap: 3.12rem;
@@ -28,24 +27,24 @@ const Tab = styled.button`
 
   &:hover {
     background-color: #f1f3f4;
+    outline: none
+  ;
     //border-bottom: ${(props) => (!props.active ? '3px solid #2275FF' : '3px solid transparent')};
   }
 `;
 
 const TabIcon = styled.div`
-  
   //margin: -1.2rem ;
-`
-
-const TabContent = styled.div`
-  padding: 16px;
 `;
 
-const Tabs = ({ tabs }) => {
-  const [activeTab, setActiveTab] = useState(0);
+const TabContent = styled.div`
+  padding-top: 16px;
+  margin: 0;
+`;
 
+const Tabs = ({ tabs, content, activeTab, setActiveTab }) => {
   return (
-    <div>
+    <>
       <TabContainer>
         <div>
           {tabs.map((tab, index) => (
@@ -55,11 +54,11 @@ const Tabs = ({ tabs }) => {
           ))}
         </div>
         <TabIcon>
-        <RefreshIcon />
+          <RefreshIcon />
         </TabIcon>
       </TabContainer>
-      <TabContent>{/*{tabs[activeTab].content}*/}</TabContent>
-    </div>
+      <TabContent>{tabs[activeTab].content}</TabContent>
+    </>
   );
 };
 

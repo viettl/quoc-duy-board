@@ -296,18 +296,6 @@ export const FullCalendarComponent = () => {
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
           }}
           customButtons={{
-            // myCustomButton: {
-            //   text: 'Add event',
-            //   click: () => {
-            //     setEvents([
-            //       ...events,
-            //       {
-            //         title: 'event',
-            //         date: new Date().toISOString().substr(0, 10),
-            //       },
-            //     ]);
-            //   },
-            // },
             currentDay: {
               text: 'Today',
               click: () => {

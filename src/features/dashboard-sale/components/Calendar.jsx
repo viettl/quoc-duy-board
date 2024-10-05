@@ -1,218 +1,319 @@
-import { Calendar, dateFnsLocalizer, Navigate, Views } from 'react-big-calendar';
-import format from 'date-fns/format';
-import parse from 'date-fns/parse';
-import startOfWeek from 'date-fns/startOfWeek';
-import getDay from 'date-fns/getDay';
-import vi from 'date-fns/locale/vi';
-import { useCallback, useMemo, useState } from 'react';
-import { Flex, Segmented } from 'antd';
-import { DotIcon } from '@/components/Icon.jsx';
-import { setDefaultOptions } from 'date-fns';
-import {
-  CustomDateHeaderStyled,
-  CustomDateInfoStyled,
-  CustomDayStyled,
-  EventWrapperStyled,
-} from '@/features/dashboard-sale/components/CalendarStyled.js';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-
+import React, { useState } from 'react';
+import { Modal, Form, Input, DatePicker, Select, Button, Checkbox } from 'antd';
 import dayjs from 'dayjs';
-import { GRADIENT_COLORS, myEventsList } from '@/helper/constants.js';
+import { FullCalendarComponent } from '@/components/fullcalendar/FullCalendar.jsx';
 
-const locales = {
-  vi: vi,
-};
+const { Option } = Select;
 
-setDefaultOptions({
-  locale: vi,
-});
-
-const localizer = dateFnsLocalizer({
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  locales,
-});
-
-const CustomHeader = ({ label }) => (
-  <Flex align={'center'} justify={'center'}>
-    <CustomDayStyled>{label}</CustomDayStyled>
-  </Flex>
-);
-
-const CustomDateHeader = ({ label }) => (
-  <Flex justify={'center'}>
-    <CustomDateHeaderStyled>{label}</CustomDateHeaderStyled>
-  </Flex>
-);
-
-const CustomCalendar = (props) => {
-  const { components, defaultDate } = useMemo(
-    () => ({
-      components: {
-        day: { header: CustomHeader },
-        week: { header: CustomHeader },
-        month: { header: CustomHeader, dateHeader: CustomDateHeader },
-        toolbar: CustomToolbar,
-        dayColumnWrapper: CustomDayStyled,
-        eventContainerWrapper: EventWrapperStyled,
-        eventWrapper: EventWrapperStyled,
+export const CalendarPage = () => {
+  const [events, setEvents] = useState([
+    // Initial events...
+    // {
+    //   id: 1,
+    //   title: 'Meeting',
+    //   start: new Date().toISOString(),
+    //   end: new Date().toISOString(),
+    //   allDay: false,
+    //   extendedProps: {
+    //     type: 'meeting',
+    //   },
+    // },
+    // {
+    //   id: 2,
+    //   title: 'Task',
+    //   start: new Date().toISOString(),
+    //   end: new Date().toISOString(),
+    //   allDay: false,
+    //   extendedProps: {
+    //     type: 'task',
+    //   },
+    // },
+    // {
+    //   id: 3,
+    //   title: 'Reminder',
+    //   start: new Date().toISOString(),
+    //   end: new Date().toISOString(),
+    //   allDay: true,
+    //   extendedProps: {
+    //     type: 'reminder',
+    //   },
+    // },
+    // {
+    //   id: 13,
+    //   title: 'Rem111inder',
+    //   start: new Date().toISOString(),
+    //   end: new Date().toISOString(),
+    //   allDay: true,
+    //   extendedProps: {
+    //     type: 'reminder',
+    //   },
+    // },
+    // tomorrow
+    {
+      id: 14,
+      title: 'Meeting',
+      start: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
+      end: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
+      allDay: false,
+      extendedProps: {
+        type: 'meeting',
       },
-      defaultDate: new Date(),
-    }),
-    [],
-  );
-
-  return (
-    <div>
-      <Calendar
-        events={myEventsList}
-        style={{ height: 500 }}
-        eventPropGetter={(myEventsList) => {
-          const color = myEventsList.color ? myEventsList.color : 'blue';
-          return { style: { backgroundImage: GRADIENT_COLORS[myEventsList.index], color } };
-        }}
-        localizer={localizer}
-        components={components}
-        startAccessor="start"
-        popup
-        endAccessor="end"
-        messages={{
-          agenda: 'Hôm nay',
-          // all day event
-          allDay: 'Cả ngày',
-          // previous, next, today button
-          previous: 'Trước',
-          next: 'Sau',
-          today: 'Hôm nay',
-          // month view
-          month: 'Tháng',
-          // week view
-          week: 'Tuần',
-          // day view
-          day: 'Ngày',
-          // date
-          date: 'Ngày',
-          // time
-          time: 'Thời gian',
-          // event
-          event: 'Sự kiện',
-          showMore: (total) => (
-            <Flex align={'center'} justify={'center'} gap={4}>
-              <DotIcon /> <DotIcon /> +{total}
-            </Flex>
-          ),
-        }}
-      />
-    </div>
-  );
-};
-
-const CustomToolbar = (props) => {
-  const [date, setDate] = useState(new Date());
-  const onNavigate = useCallback(
-    (newDate) => {
-      return setDate(newDate);
     },
-    [setDate],
-  );
-  const goToDayView = () => {
-    props.onView('day');
-  };
-  const goToWeekView = () => {
-    props.onView('week');
-  };
-  const goToMonthView = () => {
-    props.onView('month');
+    {
+      id: 5,
+      title: 'Task',
+      start: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
+      end: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
+      allDay: false,
+      extendedProps: {
+        type: 'task',
+      },
+    },
+    {
+      id: 6,
+      title: 'Reminder',
+      start: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
+      end: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
+      allDay: true,
+      extendedProps: {
+        type: 'reminder',
+      },
+    },
+    {
+      id: 36,
+      title: 'Reminder',
+      start: new Date(new Date().setDate(new Date().getDate() + 2)).toISOString(),
+      end: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
+      allDay: true,
+      extendedProps: {
+        type: 'reminder',
+      },
+    },
+    {
+      id: 126,
+      title: 'Remi123213nder',
+      start: new Date(new Date().setDate(new Date().getDate() + 2)).toISOString(),
+      end: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
+      allDay: true,
+      extendedProps: {
+        type: 'reminder',
+      },
+    },
+  ]);
+
+  const [isModalOpen, setIsModalOpen] = useState({
+    isModalOpen: false,
+    isFilterModalOpen: false,
+  });
+  const [selectedEventInfo, setSelectedEventInfo] = useState(null);
+  const [form] = Form.useForm();
+
+  const handleEventClick = (eventInfo) => {
+    setSelectedEventInfo(eventInfo);
+    form.setFieldsValue({
+      title: eventInfo.event.title,
+      start: dayjs(eventInfo.event.start),
+      end: dayjs(eventInfo.event.end),
+      allDay: eventInfo.event.allDay,
+      type: eventInfo.event.extendedProps?.type || 'meeting',
+    });
+    setIsModalOpen({
+      isModalOpen: true,
+      isFilterModalOpen: false,
+    });
   };
 
-  const goToToday = () => {
-    props.onNavigate(Navigate.TODAY);
+  const handleDateSelect = (dateInfo) => {
+    setSelectedEventInfo(dateInfo);
+    form.setFieldsValue({
+      start: dayjs(dateInfo.start),
+      end: dayjs(dateInfo.end),
+      allDay: dateInfo.allDay,
+      type: 'meeting',
+    });
+    setIsModalOpen({
+      isModalOpen: true,
+      isFilterModalOpen: false,
+    });
   };
 
-  // jum to next month
-  const goToNextMonth = () => {
-    // const newDate = moment(date).add(1, 'month').toDate();
-    const newDate = dayjs(props.date).add(1, 'month').startOf('month').toDate();
-    // trigger onNavigate to next month with new date
-    onNavigate(newDate);
-    props.onNavigate(Navigate.DATE, newDate);
+  const handleEventChange = (changeInfo) => {
+    const { event } = changeInfo;
+    setEvents((prevEvents) =>
+      prevEvents.map((prevEvent) =>
+        prevEvent.id === event.id
+          ? {
+              ...prevEvent,
+              start: event.start.toISOString(),
+              end: event.end.toISOString(),
+              allDay: event.allDay,
+            }
+          : prevEvent,
+      ),
+    );
   };
 
-  // jum to previous month
-  const goToPreviousMonth = () => {
-    const newDate = dayjs(props.date).subtract(1, 'month').startOf('month').toDate();
-    onNavigate(newDate);
-    props.onNavigate(Navigate.DATE, newDate);
+  const handleModalClose = () => {
+    setIsModalOpen({
+      isModalOpen: false,
+      isFilterModalOpen: false,
+    });
+    setSelectedEventInfo(null);
+    form.resetFields();
   };
 
-  const setAlignValue = (value) => {
-    switch (value) {
-      case 'Ngày':
-        goToDayView();
-        break;
-      case 'Tuần':
-        goToWeekView();
-        break;
-      case 'Tháng':
-        goToMonthView();
-        break;
-      default:
-        break;
-    }
+  const handleEventSave = (values) => {
+    console.log('=>(Calendar.jsx:113) values', values);
+    console.log('=>(Calendar.jsx:105) selectedEventInfo', selectedEventInfo);
+    const eventData = {
+      id: selectedEventInfo?.event?.id || Math.floor(Math.random() * 1000),
+      title: values.title,
+      start: values.start.toDate().toISOString(),
+      end: values.end.toDate().toISOString(),
+      allDay: values.allDay,
+      extendedProps: {
+        type: values.type,
+      },
+    };
+
+    setEvents((prevEvents) => {
+      if (selectedEventInfo?.event?.id) {
+        return prevEvents.map((event) => (Number(event.id) === Number(eventData.id) ? eventData : event));
+      } else {
+        return [...prevEvents, eventData];
+      }
+    });
+
+    handleModalClose();
   };
 
-  const currentDate = format(date, 'MMMM yyyy', { locale: vi });
+  const handleEventDelete = () => {
+    setEvents((prevEvents) => prevEvents.filter((event) => event.id !== selectedEventInfo.event.id));
+    handleModalClose();
+  };
+
+  function handleFilterModalClose() {
+    setIsModalOpen({
+      isModalOpen: false,
+      isFilterModalOpen: false,
+    });
+  }
+
+  const handleClickFilter = () => {
+    setIsModalOpen({
+      isModalOpen: false,
+      isFilterModalOpen: true,
+    });
+  };
   return (
     <>
-      <Flex align={'center'} justify={'space-between'}>
-        <CustomDateInfoStyled>
-          <Flex gap={12}>
-            <span onClick={goToPreviousMonth}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none">
-                <path
-                  d="M0.341647 7.82648C-0.113904 7.37092 -0.113904 6.63111 0.341647 6.17556L6.1727 0.344501C6.62825 -0.11105 7.36807 -0.11105 7.82362 0.344501C8.27917 0.800053 8.27917 1.53987 7.82362 1.99542L2.8162 7.00284L7.81998 12.0103C8.27553 12.4658 8.27553 13.2056 7.81998 13.6612C7.36442 14.1167 6.62461 14.1167 6.16906 13.6612L0.338003 7.83012L0.341647 7.82648Z"
-                  fill="#A0AEC0"
-                />
-              </svg>
-            </span>
-            <>
-              <label>{String(currentDate).charAt(0).toUpperCase() + currentDate.slice(1)}</label>
-            </>
-            <span onClick={goToNextMonth}>
-              <svg xmlns="http://www.w3.org/2000/svg" width="9" height="14" viewBox="0 0 9 14" fill="none">
-                <path
-                  d="M7.98892 6.1792C8.44447 6.63475 8.44447 7.37457 7.98892 7.83012L2.15786 13.6612C1.70231 14.1167 0.962498 14.1167 0.506947 13.6612C0.0513954 13.2056 0.0513954 12.4658 0.506947 12.0103L5.51436 7.00284L0.510591 1.99542C0.0550398 1.53987 0.0550398 0.800053 0.510591 0.344502C0.966142 -0.11105 1.70596 -0.11105 2.16151 0.344502L7.99256 6.17556L7.98892 6.1792Z"
-                  fill="#A0AEC0"
-                />
-              </svg>
-            </span>
+      <FullCalendarComponent
+        events={events}
+        onEventClick={handleEventClick}
+        onDateSelect={handleDateSelect}
+        onEventChange={handleEventChange}
+        onClickFilter={handleClickFilter}
+        eventContentRender={(eventInfo) => {
+          const backgroundColor =
+            {
+              meeting: 'linear-gradient(to right, #1e3c72, #2a5298)',
+              task: 'linear-gradient(to right, #56ab2f, #a8e063)',
+              reminder: 'linear-gradient(to right, #ff7e5f, #feb47b)',
+            }[eventInfo.event.extendedProps?.type] || 'linear-gradient(to right, #ff7e5f, #feb47b)';
+          return (
+            <div
+              style={{
+                backgroundImage: backgroundColor,
+                color: 'white',
+                width: '100%',
+                padding: '4px',
+                borderRadius: '6px',
+                overflow: 'hidden',
+              }}
+            >
+              <b>{eventInfo.timeText}</b>
+              <i>{eventInfo.event.title}</i>
+            </div>
+          );
+        }}
+      />
 
-            <span className={'today'} onClick={goToToday}>
-              Hôm nay
-            </span>
-          </Flex>
-        </CustomDateInfoStyled>
-        <Flex align={'center'} justify={'flex-end'} gap={16}>
-          <Segmented
-            defaultValue="Tháng"
-            style={{
-              marginBottom: 8,
-            }}
-            onChange={(value) => setAlignValue(value)}
-            options={['Ngày', 'Tuần', 'Tháng']}
-          />
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="20" viewBox="0 0 22 20" fill="none">
-            <path
-              d="M0.167373 1.48602C0.451 0.884389 1.05263 0.501923 1.71873 0.501923H20.2834C20.9495 0.501923 21.5511 0.884389 21.8348 1.48602C22.1184 2.08766 22.0324 2.79672 21.6113 3.31241L13.7514 12.917V18.379C13.7514 18.899 13.4592 19.376 12.9907 19.6081C12.5223 19.8401 11.968 19.7929 11.5511 19.4791L8.80081 17.4164C8.45272 17.1586 8.25074 16.7503 8.25074 16.3163V12.917L0.386539 3.30811C-0.0303062 2.79672 -0.120551 2.08336 0.167373 1.48602Z"
-              fill="#A0AEC0"
-            />
-          </svg>
-        </Flex>
-      </Flex>
+      {/* Modal filter options */}
+      <Modal
+        title="Filter Options"
+        open={isModalOpen.isFilterModalOpen}
+        onCancel={handleFilterModalClose}
+        footer={null}
+        size="small"
+        style={{ top: 20, right: 0, position: 'absolute' }}
+      >
+        <Form layout="vertical">
+          <Form.Item name="eventType" label="Event Type">
+            <Select>
+              <Option value="meeting">Meeting</Option>
+              <Option value="task">Task</Option>
+              <Option value="reminder">Reminder</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item></Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        title={selectedEventInfo?.event?.id ? 'Chỉnh sửa sự kiện' : 'Thêm sự kiện'}
+        open={isModalOpen.isModalOpen}
+        onCancel={handleModalClose}
+        footer={null}
+      >
+        <Form form={form} layout="vertical" onFinish={handleEventSave}>
+          <Form.Item name="title" label="Tên sự kiện" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="type" label="Loại sự kiện" rules={[{ required: true }]}>
+            <Select>
+              <Option value="meeting">Meeting</Option>
+              <Option value="task">Task</Option>
+              <Option value="reminder">Reminder</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item name="allDay" valuePropName="checked">
+            <Checkbox>Cả ngày</Checkbox>{' '}
+          </Form.Item>
+          <Form.Item noStyle shouldUpdate={(prevValues, currentValues) => prevValues.allDay !== currentValues.allDay}>
+            {({ getFieldValue }) =>
+              getFieldValue('allDay') ? (
+                <>
+                  <Form.Item name="start" label="Ngày bắt đầu" rules={[{ required: true }]}>
+                    <DatePicker />
+                  </Form.Item>
+                  <Form.Item name="end" label="Ngày kết thúc" rules={[{ required: true }]}>
+                    <DatePicker />
+                  </Form.Item>
+                </>
+              ) : (
+                <>
+                  <Form.Item name="start" label="Ngày bắt đầu & Thời gian" rules={[{ required: true }]}>
+                    <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                  </Form.Item>
+                  <Form.Item name="end" label="Ngày kết thúc & Thời gian" rules={[{ required: true }]}>
+                    <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                  </Form.Item>
+                </>
+              )
+            }
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              {selectedEventInfo?.event?.id ? 'Cập nhật' : 'Thêm'} sự kiện
+            </Button>
+            {selectedEventInfo?.event?.id && (
+              <Button danger onClick={handleEventDelete} style={{ marginLeft: 8 }}>
+                Xóa sự kiện
+              </Button>
+            )}
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };
-
-export default CustomCalendar;
