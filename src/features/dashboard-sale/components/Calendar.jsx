@@ -1,59 +1,18 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, DatePicker, Select, Button, Checkbox } from 'antd';
+import { Button, Checkbox, DatePicker, Form, Input, Modal, Select } from 'antd';
 import dayjs from 'dayjs';
 import { FullCalendarComponent } from '@/components/fullcalendar/FullCalendar.jsx';
+import styled from 'styled-components';
 
 const { Option } = Select;
 
 export const CalendarPage = () => {
   const [events, setEvents] = useState([
-    // Initial events...
-    // {
-    //   id: 1,
-    //   title: 'Meeting',
-    //   start: new Date().toISOString(),
-    //   end: new Date().toISOString(),
-    //   allDay: false,
-    //   extendedProps: {
-    //     type: 'meeting',
-    //   },
-    // },
-    // {
-    //   id: 2,
-    //   title: 'Task',
-    //   start: new Date().toISOString(),
-    //   end: new Date().toISOString(),
-    //   allDay: false,
-    //   extendedProps: {
-    //     type: 'task',
-    //   },
-    // },
-    // {
-    //   id: 3,
-    //   title: 'Reminder',
-    //   start: new Date().toISOString(),
-    //   end: new Date().toISOString(),
-    //   allDay: true,
-    //   extendedProps: {
-    //     type: 'reminder',
-    //   },
-    // },
-    // {
-    //   id: 13,
-    //   title: 'Rem111inder',
-    //   start: new Date().toISOString(),
-    //   end: new Date().toISOString(),
-    //   allDay: true,
-    //   extendedProps: {
-    //     type: 'reminder',
-    //   },
-    // },
-    // tomorrow
     {
       id: 14,
       title: 'Meeting',
-      start: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
-      end: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
+      start: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
+      end: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
       allDay: false,
       extendedProps: {
         type: 'meeting',
@@ -62,8 +21,8 @@ export const CalendarPage = () => {
     {
       id: 5,
       title: 'Task',
-      start: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
-      end: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
+      start: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
+      end: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
       allDay: false,
       extendedProps: {
         type: 'task',
@@ -72,11 +31,11 @@ export const CalendarPage = () => {
     {
       id: 6,
       title: 'Reminder',
-      start: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
-      end: new Date(new Date().setDate(new Date().getDate()+ 4)).toISOString(),
+      start: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
+      end: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
       allDay: true,
       extendedProps: {
-        type: 'reminder',
+        type: 'task',
       },
     },
     {
@@ -96,7 +55,7 @@ export const CalendarPage = () => {
       end: new Date(new Date().setDate(new Date().getDate() + 4)).toISOString(),
       allDay: true,
       extendedProps: {
-        type: 'reminder',
+        type: 'task',
       },
     },
   ]);
@@ -163,8 +122,6 @@ export const CalendarPage = () => {
   };
 
   const handleEventSave = (values) => {
-    console.log('=>(Calendar.jsx:113) values', values);
-    console.log('=>(Calendar.jsx:105) selectedEventInfo', selectedEventInfo);
     const eventData = {
       id: selectedEventInfo?.event?.id || Math.floor(Math.random() * 1000),
       title: values.title,
@@ -221,19 +178,10 @@ export const CalendarPage = () => {
               reminder: 'linear-gradient(to right, #ff7e5f, #feb47b)',
             }[eventInfo.event.extendedProps?.type] || 'linear-gradient(to right, #ff7e5f, #feb47b)';
           return (
-            <div
-              style={{
-                backgroundImage: backgroundColor,
-                color: 'white',
-                width: '100%',
-                padding: '4px',
-                borderRadius: '6px',
-                overflow: 'hidden',
-              }}
-            >
+            <EventDetail backgroundColor={backgroundColor}>
               <b>{eventInfo.timeText}</b>
               <i>{eventInfo.event.title}</i>
-            </div>
+            </EventDetail>
           );
         }}
       />
@@ -306,14 +254,23 @@ export const CalendarPage = () => {
             <Button type="primary" htmlType="submit">
               {selectedEventInfo?.event?.id ? 'Cập nhật' : 'Thêm'} sự kiện
             </Button>
-            {selectedEventInfo?.event?.id && (
-              <Button danger onClick={handleEventDelete} style={{ marginLeft: 8 }}>
-                Xóa sự kiện
-              </Button>
-            )}
+            {/*{selectedEventInfo?.event?.id && (*/}
+            {/*  <Button danger onClick={handleEventDelete} style={{ marginLeft: 8 }}>*/}
+            {/*    Xóa sự kiện*/}
+            {/*  </Button>*/}
+            {/*)}*/}
           </Form.Item>
         </Form>
       </Modal>
     </>
   );
 };
+
+const EventDetail = styled.div`
+  background-image: ${(props) => props.backgroundColor};
+  color: white;
+  width: 100%;
+  padding: 4px;
+  border-radius: 6px;
+  overflow: hidden;
+`;

@@ -45,7 +45,7 @@ export function Card({
         {ableToFullScreen ? (
           <div className="toolbar">
             {typeof toolbar !== null ? <>{toolbar}</> : null}
-            <div onClick={handleClickShowModal}>
+            <div className={'full-icon'} onClick={handleClickShowModal}>
               <FullScreenIcon />
             </div>
           </div>

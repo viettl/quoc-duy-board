@@ -51,8 +51,6 @@ const Toolbars = () => {
   );
 };
 
-const NOTES_COLORS = ['#04B9A7', '#2275FF', '#F9757E', '#C327E2', '#A0AEC0', '#F1252B'];
-
 const NOTES = [
   {
     icon: <UserOutlined />,

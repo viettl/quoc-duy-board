@@ -3,7 +3,6 @@ import { Col, Row } from 'antd';
 import { DBSaleContent, DBSaleIcon, DBSaleItem } from '@/features/dashboard-sale/components/SaleDailyTaskStyled.js';
 import { CardContent } from '@/components/card/CardStyled.jsx';
 
-
 const TODAY_TASKS = [
   {
     title: 'Chưa chấm công',

@@ -1,4 +1,22 @@
 import styled from 'styled-components';
+import { Layout } from 'antd';
+
+const { Header: AntHeader } = Layout;
+
+export const HeaderLayoutStyled = styled(AntHeader)`
+  padding: 16px;
+  margin-left: 16px;
+  border-radius: 16px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .trigger {
+    height: 64px;
+    cursor: pointer;
+  }
+`;
 
 export const LogoStyled = styled.div`
   display: flex;
@@ -26,6 +44,4 @@ export const LogoStyled = styled.div`
 
 export const HeaderNotification = styled.div`
   position: relative;
-    
-   
 `;

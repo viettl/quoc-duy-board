@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 const CardStyled = styled.div`
   padding: 20px;
-  border-radius: 0.75rem;
 
   border-radius: 16px;
   background: #fff;
@@ -18,6 +17,10 @@ const CardHeader = styled.div`
   .toolbar {
     display: flex;
     gap: 15px;
+
+    .full-icon {
+      cursor: pointer;
+    }
   }
 `;
 

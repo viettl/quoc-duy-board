@@ -1,19 +1,28 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import vnLocale from '@fullcalendar/core/locales/vi';
-import { FullCalendarStyled } from '@/components/fullcalendar/FullCalendarStyled.js';
+import { EventContent, FullCalendarStyled } from '@/components/fullcalendar/FullCalendarStyled.js';
 import { GRADIENT_COLORS } from '@/helper/constants.js';
 import dayjs from 'dayjs';
-import ReactDOM from 'react-dom';
-import { createRoot } from 'react-dom/client';
+import { Button, Segmented } from 'antd';
 
 import 'dayjs/locale/vi';
-import { DotIcon, UserIcon } from '@/components/Icon.jsx';
-import { Flex } from 'antd';
-import { sliceEvents } from '@fullcalendar/core';
+import { FilterIcon, LeftArrowIcon, RightArrowIcon } from '@/components/Icon.jsx';
+
+dayjs.locale('vi');
+
+const CALENDAR_EVENT_TYPES = {
+  DAY: 'day',
+  WEEK: 'week',
+  MONTH: 'month',
+  prev: 'prev',
+  next: 'next',
+  today: 'today',
+};
+
 /**
  * FullCalendarComponent renders a FullCalendar with provided events and handlers.
  *
@@ -31,6 +40,10 @@ export const FullCalendarComponent = ({
   onEventChange,
   eventContentRender,
 }) => {
+  const [_, setCurrentDate] = useState(dayjs().toDate());
+
+  const ref = useRef(null);
+
   const handleDateSelect = (selectInfo) => {
     onDateSelect &&
       onDateSelect({
@@ -61,97 +74,108 @@ export const FullCalendarComponent = ({
   };
 
   const defaultEventContentRender = (eventInfo) => (
-    <div
-      style={{
-        backgroundImage: eventInfo.event.extendedProps?.color || GRADIENT_COLORS[0],
-        color: 'white',
-        width: '100%',
-        padding: '4px',
-        borderRadius: '6px',
-        overflow: 'hidden',
-      }}
-    >
+    <EventContent style={{ backgroundImage: eventInfo.event.extendedProps?.color || GRADIENT_COLORS[0] }}>
       {eventInfo.timeText && <div>{eventInfo.timeText}</div>}
       <div>{eventInfo.event.title}</div>
-    </div>
+    </EventContent>
   );
 
-  const [currentDate, setCurrentDate] = useState(dayjs().toDate());
+  const handleViewChange = (value) => {
+    const calendarApi = ref.current.getApi();
+    setCurrentDate(calendarApi.getDate());
 
-  const ref = useRef(null);
-  const [state, set] = useState(0);
-  dayjs.locale('vi');
+    switch (value) {
+      case 'Ngày':
+        calendarApi.changeView('timeGridDay');
+        break;
+      case 'Tuần':
+        calendarApi.changeView('timeGridWeek');
+        break;
+      case 'Tháng':
+        calendarApi.changeView('dayGridMonth');
+        break;
+    }
+  };
+
+  /**
+   *
+   * @param {'prev' | 'next' | 'today'} type - The type of navigation action.
+   */
+  const handleClickNav = (type) => {
+    switch (type) {
+      case CALENDAR_EVENT_TYPES.prev: {
+        const calendarApi = ref.current.getApi();
+        calendarApi.prev();
+        setCurrentDate(calendarApi.getDate());
+        break;
+      }
+      case CALENDAR_EVENT_TYPES.next: {
+        const calendarApi = ref.current.getApi();
+        calendarApi.next();
+        setCurrentDate(calendarApi.getDate());
+        break;
+      }
+      case CALENDAR_EVENT_TYPES.today: {
+        const calendarApi = ref.current.getApi();
+        calendarApi.gotoDate(new Date());
+        setCurrentDate(calendarApi.getDate());
+        break;
+      }
+    }
+  };
 
   useEffect(() => {
-    const document1 = document.getElementById('myCalendar');
-    console.log('=>(FullCalendar.jsx:80) document', document1, ref?.current?.getApi().currentData);
-  });
-  console.log('=>(FullCalendar.jsx:117) ref', ref.current);
+    if (!ref?.current?.getApi()) return;
+    const calendarApi = ref.current.getApi();
+    calendarApi.gotoDate(new Date());
+    setCurrentDate(calendarApi.getDate());
+  }, [ref]);
+
   return (
     <FullCalendarStyled>
-      <Flex gap={4}>
-        <button
-          onClick={() => {
-            const calendarApi = ref.current.getApi();
-            calendarApi.prev();
-            set(state + 1);
-            setCurrentDate(calendarApi.getDate());
-          }}
-        >
-          Prev
-        </button>
-
-        <div>{ref?.current?.getApi().currentData.viewTitle}</div>
-        {/*<div>{dayjs(currentDate).format('dd DD-MM-YYYY')}</div>*/}
-
-        <button
-          onClick={() => {
-            const calendarApi = ref.current.getApi();
-            calendarApi.next();
-            setCurrentDate(calendarApi.getDate());
-          }}
-        >
-          Next
-        </button>
-
-        <button
-          onClick={() => {
-            const calendarApi = ref.current.getApi();
-            calendarApi.gotoDate(new Date());
-            setCurrentDate(calendarApi.getDate());
-          }}
-        >
-          Today
-        </button>
-
-        {/*   view*/}
-        <button
-          onClick={() => {
-            const calendarApi = ref.current.getApi();
-            calendarApi.changeView('timeGridDay');
-            setCurrentDate(calendarApi.getDate());
-          }}
-        >
-          Day
-        </button>
-        <button
-          onClick={() => {
-            const calendarApi = ref.current.getApi();
-            calendarApi.changeView('timeGridWeek');
-            setCurrentDate(calendarApi.getDate());
-          }}
-        >
-          Week
-        </button>
-        <button
-          onClick={() => {
-            const calendarApi = ref.current.getApi();
-            calendarApi.changeView('dayGridMonth');
-          }}
-        >
-          Month
-        </button>
-      </Flex>
+      <div className="calendar-nav">
+        <div className="calendar-nav-left">
+          <button
+            className="nav-button"
+            onClick={() => {
+              handleClickNav(CALENDAR_EVENT_TYPES.prev);
+            }}
+          >
+            <LeftArrowIcon />
+          </button>
+          <div className="current-date">{ref?.current?.getApi().currentData.viewTitle}</div>
+          <button
+            className="nav-button"
+            onClick={() => {
+              handleClickNav(CALENDAR_EVENT_TYPES.next);
+            }}
+          >
+            <RightArrowIcon />
+          </button>
+          <button
+            className="nav-button today"
+            onClick={() => {
+              handleClickNav(CALENDAR_EVENT_TYPES.today);
+            }}
+          >
+            Hôm nay
+          </button>
+        </div>
+        <div className="calendar-nav-right">
+          <Segmented
+            options={['Ngày', 'Tuần', 'Tháng']}
+            value={
+              ref?.current?.getApi().view.type === 'dayGridMonth'
+                ? 'Tháng'
+                : ref?.current?.getApi().view.type === 'timeGridWeek'
+                  ? 'Tuần'
+                  : 'Ngày'
+            }
+            onChange={handleViewChange}
+          />
+          <Button icon={<FilterIcon />} onClick={onClickFilter} className="filter-button" />
+        </div>
+      </div>
       <FullCalendar
         ref={ref}
         id={'myCalendar'}
@@ -165,29 +189,7 @@ export const FullCalendarComponent = ({
         eventDrop={handleEventChange}
         eventResize={handleEventChange}
         dayMaxEventRows={2}
-        // moreLinkDidMount={(args) => {
-        //   const date = new Date(
-        //     args.el.parentElement.parentElement.parentElement.parentElement.getAttribute('data-date'),
-        //   );
-        //   console.log(args.view.getCurrentData().calendarOptions.events);
-        //   console.log('=>(FullCalendar.jsx:101) date', dayjs(date).toDate());
-        //   // get all list of more link elements
-        //
-        //   const moreLinkElements = document.querySelectorAll('.fc-daygrid-more-link');
-        //   moreLinkElements.forEach((element) => {
-        //     // Modify the text content
-        //     const root = createRoot(element);
-        //     element.setAttribute('data-num', args.num);
-        //     root.render(<MoreLink num={args.num} />);
-        //   });
-        //   return <>{date}</>;
-        // }}
-        // moreLinkText={function () {
-        //   return ``;
-        // }}
         moreLinkContent={function (args) {
-          // const calendarApi = args.view.getCurrentData().calendarApi;
-          // ref.current = calendarApi;
           return <div>Thêm +{args.num}</div>;
         }}
         moreLinkClassNames={'viewmore'}
@@ -200,32 +202,9 @@ export const FullCalendarComponent = ({
           //
           // }
         }
-        // customButtons={{
-        //   currentDay: {
-        //     text: 'Today',
-        //     click: () => {
-        //       calendar.gotoDate(new Date());
-        //     },
-        //   },
-        //   filter: {
-        //     text: '',
-        //     click: () => {
-        //       onClickFilter && onClickFilter();
-        //       console.log('Filter clicked');
-        //     },
-        //   },
-        // }}
         events={events}
         eventContent={eventContentRender || defaultEventContentRender}
       />
     </FullCalendarStyled>
-  );
-};
-
-const MoreLink = ({ num }) => {
-  return (
-    <div>
-      <DotIcon /> {num}
-    </div>
   );
 };

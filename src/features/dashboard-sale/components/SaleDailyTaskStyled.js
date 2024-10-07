@@ -10,7 +10,6 @@ const DBSaleIcon = styled.div`
   img {
     width: 50px;
     height: 50px;
-    border-radius: 100%;
   }
   display: flex;
   justify-content: center;

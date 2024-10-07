@@ -1,5 +1,5 @@
 import { Card } from '@/components/card/Card';
-import { LayoutContent } from '@/components/layout/LayoutContent';
+import { LayoutContent } from '@/layout/LayoutContent';
 import { Tabs } from '@/components/tabs/Tab';
 import { Col, Row } from 'antd';
 import { SaleDailyTask } from './components/SaleDailyTask';
@@ -9,7 +9,6 @@ import { CalendarClockIcon } from '@/components/Icon.jsx';
 import styled from 'styled-components';
 import { CalendarPage } from '@/features/dashboard-sale/components/Calendar.jsx';
 import { useState } from 'react';
-import CustomCalendar1 from '@/features/dashboard-sale/components/big-calendar/Calendar1.jsx';
 
 const RightTextStyled = styled.div`
   color: #2275ff;
@@ -50,7 +49,6 @@ const TodoTabContent = () => {
           rightToolbar={<RightTextStyled>Tất cả</RightTextStyled>}
         >
           <CardContent>
-            {/*<CustomCalendar1 />*/}
             <CalendarPage />
           </CardContent>
         </Card>

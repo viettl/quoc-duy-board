@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons';
-import { Avatar, Badge, Button, Flex, Layout, Menu, theme } from 'antd';
-import { NavbarText } from '../Typo';
-const { Header, Sider, Content } = Layout;
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { Avatar, Badge, Flex, Layout, theme } from 'antd';
+import { NavbarText } from '../components/Typo.jsx';
+import { BellIcon } from '@/components/Icon.jsx';
+import CustomMenus from '@/layout/Menus.jsx';
+import { HeaderLayoutStyled, LogoStyled } from '@/layout/LayoutStyled.js';
 
-import { Col, Divider, Row } from 'antd';
-import { BellIcon, UserGroups, UserIcon } from '@/components/Icon.jsx';
-import CustomMenus from '@/components/layout/Menus.jsx';
-import { LogoStyled } from '@/components/layout/LayoutStyled.js';
+const { Header, Sider, Content } = Layout;
 
 const App = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -43,24 +36,9 @@ const App = ({ children }) => {
         <CustomMenus />
       </Sider>
       <Layout>
-        <Header
-          style={{
-            padding: 16,
-            marginLeft: 16,
-            borderRadius: 16,
-            background: '#FFF',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-        >
+        <HeaderLayoutStyled>
           <Flex align={'center'} gap={20}>
-            <div
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                height: 64,
-              }}
-            >
+            <div onClick={() => setCollapsed(!collapsed)} className={'trigger'}>
               {collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             </div>
             <NavbarText>Xin chào, Hệ Thống!</NavbarText>
@@ -71,7 +49,7 @@ const App = ({ children }) => {
             </Badge>
             <Avatar src={'./images/ava.png'} style={{ verticalAlign: 'middle' }} size="large"></Avatar>
           </Flex>
-        </Header>
+        </HeaderLayoutStyled>
         {children}
       </Layout>
     </Layout>

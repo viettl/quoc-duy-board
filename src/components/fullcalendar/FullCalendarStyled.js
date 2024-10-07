@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import FullCalendar from '@fullcalendar/react';
 
 export const FullCalendarStyled = styled.div`
   .fc .fc-toolbar.fc-header-toolbar {
@@ -87,13 +86,26 @@ export const FullCalendarStyled = styled.div`
     border: none;
   }
 
+    // reset event style
+    .fc-h-event {
+        background-color: unset;
+        border: none;
+        display: block;
+         align-items: center;
+ 
+        color: var(--white, #FFF);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 100%; 
+    }
+
   // daybox
   .fc-day {
     padding: 10px;
   }
   .fc-daygrid-day-top {
-    //padding: 10px;
-    display: flex;
+     display: flex;
     justify-content: center;
     a {
       color: #344767;
@@ -107,16 +119,24 @@ export const FullCalendarStyled = styled.div`
 
   // today
   .fc-day-today {
-    border: 1px solid var(--Grey, #ebeff5);
-    background: var(--white, #fff);
-    a {
-      border-radius: 6px;
-      background: #2275ff;
-      min-width: 24px;
-      min-height: 24px;
-      color: #ffffff;
-    }
+      
+      .fc-daygrid-day-number {
+           border-radius: 6px;  
+          background: #2275ff;
+          min-width: 24px;
+          min-height: 24px;
+          color: #ffffff;
+          a {
+              border-radius: 6px;
+              background: #2275ff;
+              min-width: 24px;
+              min-height: 24px;
+              color: #ffffff;
+          }
+      }
   }
+    
+    
   // background color current day
   .fc .fc-daygrid-day.fc-day-today {
     background-color: unset;
@@ -156,4 +176,129 @@ export const FullCalendarStyled = styled.div`
     line-height: 100%;
     padding: 8px 0;
   }
+
+  .calendar-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .calendar-nav-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .calendar-nav-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .calendar-nav-right .ant-segmented {
+    margin-right: 15px;
+  }
+
+  .calendar-nav-right .ant-segmented-item {
+    min-width: 60px;
+  }
+
+  .nav-button,
+  .view-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #5a5a5a;
+  }
+
+  .nav-button:hover,
+  .view-button:hover {
+    color: #1a1a1a;
+  }
+
+  .nav-button.today {
+    color: var(--Dark-grey, #a0aec0);
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+   &:hover {
+        color: #1a1a1a;
+        }
+   }
+  }
+
+  .current-date {
+    color: #344767;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 14px */
+  }
+
+  .view-buttons {
+    background-color: #f0f0f0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .view-button {
+    background-color: transparent;
+    padding: 8px 16px;
+  }
+
+  .view-button.active {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .filter-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #5a5a5a;
+    margin-left: 15px;
+  }
+
+  .filter-button svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+
+  .calendar-nav-right .filter-button {
+    border: none;
+    background: none;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .calendar-nav-right .filter-button:hover {
+    background-color: #f0f0f0;
+  }
+
+  .filter-button {
+    margin-left: 15px;
+  }
+
+  .filter-button svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+  }
+`;
+
+export const EventContent = styled.div`
+  color: white;
+  width: 100%;
+  padding: 4px;
+  border-radius: 6px;
+  overflow: hidden;
 `;
